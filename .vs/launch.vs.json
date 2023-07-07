@@ -1,0 +1,18 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "opengl-test.exe",
+      "name": "opengl-test.exe"
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "opengl-test.exe (src\\opengl-test.exe)",
+      "name": "opengl-test.exe (src\\opengl-test.exe)"
+    }
+  ]
+}
