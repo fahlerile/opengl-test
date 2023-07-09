@@ -55,7 +55,6 @@ unsigned int ShaderProgram::process_shader(std::string path, ShaderType type)
     catch (std::ifstream::failure e)
     {
         std::cout << "Failed to read " << path << std::endl;
-        exit(1);
     }
 
     unsigned int shader;
@@ -82,22 +81,24 @@ unsigned int ShaderProgram::process_shader(std::string path, ShaderType type)
         glGetShaderInfoLog(shader, 512, NULL, compile_log);
         std::cout << "Failed to compile shader " << path << std::endl;
         std::cout << compile_log << std::endl;
-        exit(1);
     }
 
     return shader;
 }
 
+// Use this shader program
 void ShaderProgram::use()
 {
     glUseProgram(this->id);
 }
 
+// Delete this shader program
 void ShaderProgram::delete_program()
 {
     glDeleteProgram(this->id);
 }
 
+// Get location of the uniform of this shader program
 unsigned int ShaderProgram::get_uniform_location(const char *name)
 {
     return glGetUniformLocation(this->id, name);

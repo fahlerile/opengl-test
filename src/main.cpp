@@ -48,30 +48,31 @@ int main()
 
     // vertices array
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+        -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,
+         0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
     };
 
-    // creating VBO and VAO  // TODO: understand how this works
+    // creating VBO and VAO
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glBindVertexArray(VAO);
 
     // loading data to a buffer (VBO)
+    glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // setting attibutes to a buffer
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) 0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     // UNbinding VBO and VAO
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-    unsigned int location = shader.get_uniform_location("u_Color");
 
     while (!glfwWindowShouldClose(window))
     {
@@ -80,11 +81,7 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float time = glfwGetTime();
-        float red = (sin(time) / 2.0f) + 0.5f;
-
         shader.use();
-        glUniform4f(location, red, 0.7f, 0.3f, 1.0f);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
  
