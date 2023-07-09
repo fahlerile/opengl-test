@@ -1,3 +1,4 @@
-*.c linguist-vendored=false
-*.h linguist-vendored=false
+*.c linguist-detectable=false
+*.h linguist-detectable=false
+
 *.glsl linguist-language=GLSL
