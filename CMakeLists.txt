@@ -1,4 +1,5 @@
-# cmake .. -D CMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -D CMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++
+# wsl cross-compile - cmake .. -D CMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -D CMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++
+# w64devkit - cmake .. -G "MinGW Makefiles"
 
 cmake_minimum_required(VERSION 3.18.4)
 project(opengl-triangle)
@@ -17,8 +18,8 @@ target_include_directories(triangle PUBLIC src/include)
 find_library(
   GLFW_LIB
   NAMES glfw3
-  # HINTS "${CMAKE_SOURCE_DIR}/lib"
-  # NO_DEFAULT_PATH
+  HINTS "${CMAKE_SOURCE_DIR}/lib"
+  NO_DEFAULT_PATH
 )
 if(NOT GLFW_LIB)
   message(FATAL_ERROR "GLFW library not found")
@@ -27,8 +28,8 @@ endif()
 find_library(
   GLEW_LIB
   NAMES glew32s
-  # HINTS "${CMAKE_SOURCE_DIR}/lib"
-  # NO_DEFAULT_PATH
+  HINTS "${CMAKE_SOURCE_DIR}/lib"
+  NO_DEFAULT_PATH
 )
 if(NOT GLEW_LIB)
   message(FATAL_ERROR "GLEW library not found")
