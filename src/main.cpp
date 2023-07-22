@@ -1,12 +1,16 @@
 #include <iostream>
 #include <cmath>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 #include "ShaderProgram.hpp"
 
@@ -102,8 +106,6 @@ int main()
     }
     stbi_image_free(data);
 
-    std::cout << "Textures loaded..." << std::endl;
-
     // vertices array (position, color, texture coords)
     float vertices[] = {
         -0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
@@ -145,12 +147,15 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     // set texture uniforms
     shader.use();
     glUniform1i(shader.get_uniform_location("Texture1"), 0);
     glUniform1i(shader.get_uniform_location("Texture2"), 1);
+
+    // declare transformation matrix
+    glm::mat4 transform(1.0f);
+    // transform = glm::rotate(transform, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    // transform = glm::scale(transform, glm::vec3(0.5, 2.0, 0.0));
 
     while (!glfwWindowShouldClose(window))
     {
@@ -160,6 +165,9 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
+
+        glUniformMatrix4fv(shader.get_uniform_location("Transform"), 1, GL_FALSE, glm::value_ptr(transform));
+        transform = glm::rotate(transform, 0.001f, glm::vec3(0.0, 0.0, 1.0));
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, box_texture);
